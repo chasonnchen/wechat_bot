@@ -1,22 +1,22 @@
 package dao
 
 import (
-    "github.com/chasonnchen/wechat_bot/entity"
+	"github.com/chasonnchen/wechat_bot/entity"
 )
 
 var (
-    roomQaDao = &RoomQaDao{}
+	roomQaDao = &RoomQaDao{}
 )
 
 type RoomQaDao struct {
 }
 
-func NewRoomQaDao() *RoomQaDao{
-    return roomQaDao
+func NewRoomQaDao() *RoomQaDao {
+	return roomQaDao
 }
 
 func (r *RoomQaDao) GetAll() (roomQaList []entity.RoomQaEntity) {
-    conn := getDb("webot")
-    conn.Find(&roomQaList)
-    return
+	conn := getDb("webot")
+	conn.Find(&roomQaList)
+	return
 }

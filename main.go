@@ -25,29 +25,31 @@ import (
 	"os/signal"
 	"time"
 
-    "github.com/chasonnchen/wechat_bot/configs"
-    "github.com/chasonnchen/wechat_bot/dao"
-    "github.com/chasonnchen/wechat_bot/service"
+	"github.com/chasonnchen/wechat_bot/configs"
+	"github.com/chasonnchen/wechat_bot/dao"
+	"github.com/chasonnchen/wechat_bot/service"
+	"github.com/chasonnchen/wechat_bot/task"
 
-    wp "github.com/wechaty/go-wechaty/wechaty-puppet"
 	"github.com/wechaty/go-wechaty/wechaty"
+	wp "github.com/wechaty/go-wechaty/wechaty-puppet"
 	"github.com/wechaty/go-wechaty/wechaty-puppet/schemas"
 	"github.com/wechaty/go-wechaty/wechaty/user"
 )
 
 func main() {
 
-    // 1. 初始化
-    configs.InitConfig()
-    dao.InitDao()
-    service.InitService()
+	// 1. 初始化
+	/*configs.InitConfig()
+	  dao.InitDao()
+	  service.InitService()
+	  task.InitTask()*/
 
-    // 2. 启动bot服务
+	// 2. 启动bot服务
 	var bot = wechaty.NewWechaty(wechaty.WithPuppetOption(wp.Option{
-        //Endpoint: "127.0.0.1:8788",
-        //Token: "puppet_padlocal_96b1f6b62b074fa3bd3a8ae4c55fa56a",
-        Timeout: time.Duration(2*time.Minute),
-}))
+		//Endpoint: "127.0.0.1:8788",
+		//Token: "puppet_padlocal_96b1f6b62b074fa3bd3a8ae4c55fa56a",
+		Timeout: time.Duration(2 * time.Minute),
+	}))
 
 	bot.OnScan(func(ctx *wechaty.Context, qrCode string, status schemas.ScanStatus, data string) {
 		fmt.Printf("Scan QR Code to login: %v\nhttps://wechaty.js.org/qrcode/%s\n", status, qrCode)
@@ -57,11 +59,16 @@ func main() {
 		fmt.Printf("User %s logouted: %s\n", user, reason)
 	})
 
-
 	var err = bot.Start()
 	if err != nil {
 		panic(err)
 	}
+
+	// 1. 初始化
+	configs.InitConfig()
+	dao.InitDao()
+	service.InitService()
+	task.InitTask(bot)
 
 	var quitSig = make(chan os.Signal)
 	signal.Notify(quitSig, os.Interrupt, os.Kill)

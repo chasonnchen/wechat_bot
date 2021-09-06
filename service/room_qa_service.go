@@ -55,13 +55,19 @@ func (r *RoomQaService) OnMessage(ctx *wechaty.Context, message *user.Message) {
 						log.Println(err)
 						return
 					}
-					log.Printf("Message response is %s", qaItem.QaKey)
+					log.Printf("Message response is %s", qaItem.QaValue)
 					return
 				}
 			}
 		}
 	} else {
-		// TODO room信息插入到表里
+		newRoom := entity.RoomEntity{
+			WeRoomId:   weRoomId,
+			RoomName:   message.Room().Topic(),
+			AiStatus:   1,
+			RoomStatus: 1,
+		}
+		dao.NewRoomDao().Insert(newRoom)
 	}
 
 	// TODO 未命中关键字时，ai聊天
@@ -106,6 +112,6 @@ func (r *RoomQaService) loadConf() {
 
 	log.Printf("r conf is %#v", roomConf)
 	log.Printf("q conf is %#v", roomQaConf)
-    r.RoomConf = roomConf
-    r.RoomQaConf = roomQaConf
+	r.RoomConf = roomConf
+	r.RoomQaConf = roomQaConf
 }

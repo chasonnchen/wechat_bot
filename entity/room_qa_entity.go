@@ -1,17 +1,14 @@
 package entity
 
-import(
-)
-
 type RoomQaEntity struct {
-    Id int32
-    RoomId int32
-    QaName string
-    QaKey string
-    QaValue string
-    Status int32
+	Id      int32
+	RoomId  int32
+	QaName  string
+	QaKey   string
+	QaValue string
+	Status  int32
 }
 
 func (RoomQaEntity) TableName() string {
-    return "t_room_qa"
+	return "t_room_qa"
 }
