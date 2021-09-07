@@ -37,7 +37,7 @@ func (s *Sina7x24Task) Start() {
 }
 
 func (s *Sina7x24Task) work() {
-	msg, id := sina7x24.NewClient().GetMsgs(0, s.LastId)
+	msg, id := sina7x24.NewClient().GetMsgs(10, s.LastId)
 	if id > 0 {
 		s.LastId = id
 	}
@@ -51,7 +51,7 @@ func (s *Sina7x24Task) work() {
 	}
 
 	if len(msg) > 0 {
-		//s.Bot.Room().Load("18543635738@chatroom").Say(msg)
-		s.Bot.Room().Load("21083279973@chatroom").Say(msg)
+		s.Bot.Room().Load("18543635738@chatroom").Say(msg)
+		//s.Bot.Room().Load("21083279973@chatroom").Say(msg)
 	}
 }

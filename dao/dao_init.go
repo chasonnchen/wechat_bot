@@ -32,3 +32,7 @@ func InitDao() {
 func getDb(dbName string) *gorm.DB {
 	return dbMap[dbName]
 }
+
+func Webot() *gorm.DB {
+    return getDb("webot")
+}

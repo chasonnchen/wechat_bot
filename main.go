@@ -29,6 +29,7 @@ import (
 	"github.com/chasonnchen/wechat_bot/dao"
 	"github.com/chasonnchen/wechat_bot/service"
 	"github.com/chasonnchen/wechat_bot/task"
+	"github.com/chasonnchen/wechat_bot/logic"
 
 	"github.com/wechaty/go-wechaty/wechaty"
 	wp "github.com/wechaty/go-wechaty/wechaty-puppet"
@@ -38,23 +39,17 @@ import (
 
 func main() {
 
-	// 1. 初始化
-	/*configs.InitConfig()
-	  dao.InitDao()
-	  service.InitService()
-	  task.InitTask()*/
-
-	// 2. 启动bot服务
+	// 1. 启动bot服务
 	var bot = wechaty.NewWechaty(wechaty.WithPuppetOption(wp.Option{
-		//Endpoint: "127.0.0.1:8788",
-		//Token: "puppet_padlocal_96b1f6b62b074fa3bd3a8ae4c55fa56a",
+		Endpoint: "127.0.0.1:30009",
+		Token: "2fdb00a5-5c31-4018-84ac-c64e5f995057",
 		Timeout: time.Duration(2 * time.Minute),
 	}))
 
 	bot.OnScan(func(ctx *wechaty.Context, qrCode string, status schemas.ScanStatus, data string) {
-		fmt.Printf("Scan QR Code to login: %v\nhttps://wechaty.js.org/qrcode/%s\n", status, qrCode)
+		log.Printf("Scan QR Code to login: %v\nhttps://wechaty.js.org/qrcode/%s\n", status, qrCode)
 	}).OnLogin(func(ctx *wechaty.Context, user *user.ContactSelf) {
-		fmt.Printf("User %s logined, user info is %v\n", user.Name(), user)
+		log.Printf("User %s login success! \n", user.Name())
 	}).OnMessage(onMessage).OnLogout(func(ctx *wechaty.Context, user *user.ContactSelf, reason string) {
 		fmt.Printf("User %s logouted: %s\n", user, reason)
 	})
@@ -64,7 +59,7 @@ func main() {
 		panic(err)
 	}
 
-	// 1. 初始化
+	// 2. 初始化业务模块
 	configs.InitConfig()
 	dao.InitDao()
 	service.InitService()
@@ -77,4 +72,8 @@ func main() {
 	case <-quitSig:
 		log.Fatal("exit.by.signal")
 	}
+}
+
+func onMessage(ctx *wechaty.Context, message *user.Message) {
+    logic.NewMessageLogic().Do(message)
 }
