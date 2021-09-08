@@ -2,7 +2,7 @@ package service
 
 import (
 	"log"
-    "strings"
+	"strings"
 	"time"
 
 	"github.com/chasonnchen/wechat_bot/dao"
@@ -24,14 +24,6 @@ type QaService struct {
 	QaConf map[string][]entity.SkillQaEntity
 }
 
-func (q *QaService) getContactIdFromMessage(message *user.Message) string {
-	if message.Room() != nil {
-		return message.Room().ID()
-	}
-
-	return message.From().ID()
-}
-
 func (q *QaService) neesIgnore(message *user.Message) bool {
 	if message.Self() {
 		log.Println("Message discarded because its outgoing")
@@ -51,16 +43,14 @@ func (q *QaService) neesIgnore(message *user.Message) bool {
 	return false
 }
 
-func (q *QaService) DoQa(message *user.Message) {
+func (q *QaService) DoQa(contact entity.ContactEntity, message *user.Message) {
 	// 1. 检查是否需要忽略
 	if q.neesIgnore(message) {
 		return
 	}
 
 	// 2. 开始匹配问答
-	contactId := q.getContactIdFromMessage(message)
-
-	for _, qaItem := range q.QaConf[contactId] {
+	for _, qaItem := range q.QaConf[contact.Id] {
 		for _, keyword := range strings.Split(qaItem.QaKey, ",") {
 			if strings.Contains(message.Text(), keyword) {
 				_, err := message.Say(qaItem.QaValue)

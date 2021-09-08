@@ -51,7 +51,7 @@ func (s *Sina7x24Task) work() {
 	}
 
 	if len(msg) > 0 {
-		s.Bot.Room().Load("18543635738@chatroom").Say(msg)
+		//s.Bot.Room().Load("18543635738@chatroom").Say(msg)
 		//s.Bot.Room().Load("21083279973@chatroom").Say(msg)
 	}
 }

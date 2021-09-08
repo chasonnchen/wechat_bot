@@ -1,7 +1,7 @@
 package entity
 
 type ContactEntity struct {
-	Id   string
+	Id     string
 	Name   string
 	Type   int32
 	Status int32

@@ -27,9 +27,9 @@ import (
 
 	"github.com/chasonnchen/wechat_bot/configs"
 	"github.com/chasonnchen/wechat_bot/dao"
+	"github.com/chasonnchen/wechat_bot/logic"
 	"github.com/chasonnchen/wechat_bot/service"
 	"github.com/chasonnchen/wechat_bot/task"
-	"github.com/chasonnchen/wechat_bot/logic"
 
 	"github.com/wechaty/go-wechaty/wechaty"
 	wp "github.com/wechaty/go-wechaty/wechaty-puppet"
@@ -42,8 +42,8 @@ func main() {
 	// 1. 启动bot服务
 	var bot = wechaty.NewWechaty(wechaty.WithPuppetOption(wp.Option{
 		Endpoint: "127.0.0.1:30009",
-		Token: "2fdb00a5-5c31-4018-84ac-c64e5f995057",
-		Timeout: time.Duration(2 * time.Minute),
+		Token:    "2fdb00a5-5c31-4018-84ac-c64e5f995057",
+		Timeout:  time.Duration(2 * time.Minute),
 	}))
 
 	bot.OnScan(func(ctx *wechaty.Context, qrCode string, status schemas.ScanStatus, data string) {
@@ -58,8 +58,10 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+	// 2. 放一个全局bot
+	service.NewGlobleService().SetBot(bot)
 
-	// 2. 初始化业务模块
+	// 3. 初始化业务模块
 	configs.InitConfig()
 	dao.InitDao()
 	service.InitService()
@@ -75,5 +77,5 @@ func main() {
 }
 
 func onMessage(ctx *wechaty.Context, message *user.Message) {
-    logic.NewMessageLogic().Do(message)
+	logic.NewMessageLogic().Do(message)
 }

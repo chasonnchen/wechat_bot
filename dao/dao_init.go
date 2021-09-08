@@ -34,5 +34,5 @@ func getDb(dbName string) *gorm.DB {
 }
 
 func Webot() *gorm.DB {
-    return getDb("webot")
+	return getDb("webot")
 }

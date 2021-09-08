@@ -1,7 +1,7 @@
 package entity
 
 type GroupEntity struct {
-	Id   int32
+	Id     int32
 	Name   string
 	Status int32
 }
