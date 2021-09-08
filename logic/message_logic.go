@@ -37,7 +37,10 @@ func (m *MessageLogic) buildContact(message *user.Message) entity.ContactEntity 
 		contact.Status = 1
 	} else {
 		contact.Id = message.From().ID()
-		contact.Name = message.From().Alias()
+		contact.Name = message.From().Name()
+		if len(message.From().Alias()) > 0 {
+			contact.Name = message.From().Alias()
+		}
 		contact.Type = 1
 		contact.Status = 1
 	}
@@ -46,15 +49,19 @@ func (m *MessageLogic) buildContact(message *user.Message) entity.ContactEntity 
 }
 
 func (m *MessageLogic) buildMsgText(message *user.Message) string {
-	var msgText string
+	msgText := "[" + message.From().ID() + "]"
 	if message.Room() != nil {
 		aliasName, err := message.Room().Alias(message.From())
 		if err != nil || len(aliasName) < 1 {
 			aliasName = message.From().Name()
 		}
-		msgText = "[" + aliasName + "@" + message.Room().Topic()
+		msgText = msgText + "[" + aliasName + "@" + message.Room().Topic()
 	} else {
-		msgText = "[" + message.From().Alias()
+		name := message.From().Alias()
+		if len(name) < 1 {
+			name = message.From().Name()
+		}
+		msgText = msgText + "[" + name
 	}
 	msgText = msgText + "]: "
 

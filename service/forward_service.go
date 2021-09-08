@@ -69,7 +69,11 @@ func (f *ForwardService) buildMsgHead(message *user.Message) string {
 		}
 		msgText = "[" + aliasName + "@" + message.Room().Topic()
 	} else {
-		msgText = "[" + message.From().Alias()
+		name := message.From().Alias()
+		if len(name) < 1 {
+			name = message.From().Name()
+		}
+		msgText = "[" + name
 	}
 	msgText = msgText + "]: "
 	msgText = msgText + message.Text()
