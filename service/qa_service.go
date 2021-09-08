@@ -53,7 +53,7 @@ func (q *QaService) DoQa(contact entity.ContactEntity, message *user.Message) {
 	for _, qaItem := range q.QaConf[contact.Id] {
 		for _, keyword := range strings.Split(qaItem.QaKey, ",") {
 			if strings.Contains(message.Text(), keyword) {
-				_, err := message.Say(qaItem.QaValue)
+				_, err := message.Say(strings.Trim(qaItem.QaValue, "\n"))
 				if err != nil {
 					log.Println(err)
 					return
