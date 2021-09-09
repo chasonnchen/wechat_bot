@@ -4,6 +4,7 @@ import (
 	"log"
 
 	"github.com/chasonnchen/wechat_bot/entity"
+	"github.com/chasonnchen/wechat_bot/lib/util"
 	"github.com/chasonnchen/wechat_bot/service"
 
 	"github.com/wechaty/go-wechaty/wechaty-puppet/schemas"
@@ -49,26 +50,13 @@ func (m *MessageLogic) buildContact(message *user.Message) entity.ContactEntity 
 }
 
 func (m *MessageLogic) buildMsgText(message *user.Message) string {
-	msgText := "[" + message.From().ID() + "]"
-	if message.Room() != nil {
-		aliasName, err := message.Room().Alias(message.From())
-		if err != nil || len(aliasName) < 1 {
-			aliasName = message.From().Name()
-		}
-		msgText = msgText + "[" + aliasName + "@" + message.Room().Topic()
-	} else {
-		name := message.From().Alias()
-		if len(name) < 1 {
-			name = message.From().Name()
-		}
-		msgText = msgText + "[" + name
-	}
-	msgText = msgText + "]: "
+	msgText := "[" + message.From().ID() + "]" + util.BuildMsgFrom(message)
 
 	if message.Type() != schemas.MessageTypeText {
 		msgText = msgText + "[say something not Text.]"
+	} else {
+		msgText = msgText + ": " + message.Text()
 	}
-	msgText = msgText + message.Text()
 
 	return msgText
 }

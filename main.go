@@ -52,7 +52,7 @@ func main() {
 		log.Printf("User %s login success! \n", user.Name())
 	}).OnMessage(onMessage).OnLogout(func(ctx *wechaty.Context, user *user.ContactSelf, reason string) {
 		fmt.Printf("User %s logouted: %s\n", user, reason)
-	})
+	}).OnFriendship(onFriendship)
 
 	var err = bot.Start()
 	if err != nil {
@@ -78,4 +78,8 @@ func main() {
 
 func onMessage(ctx *wechaty.Context, message *user.Message) {
 	logic.NewMessageLogic().Do(message)
+}
+
+func onFriendship(ctx *wechaty.Context, friendship *user.Friendship) {
+	logic.NewFriendshipLogic().Do(friendship)
 }

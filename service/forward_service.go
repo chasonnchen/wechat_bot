@@ -7,6 +7,7 @@ import (
 
 	"github.com/chasonnchen/wechat_bot/dao"
 	"github.com/chasonnchen/wechat_bot/entity"
+	"github.com/chasonnchen/wechat_bot/lib/util"
 
 	"github.com/wechaty/go-wechaty/wechaty-puppet/schemas"
 	"github.com/wechaty/go-wechaty/wechaty/user"
@@ -38,7 +39,7 @@ func (f *ForwardService) neesIgnore(message *user.Message) bool {
 
 	if message.Type() != schemas.MessageTypeText {
 		log.Println("Message discarded because it dose not Text")
-		return true
+		// TODO return true
 	}
 
 	return false
@@ -61,24 +62,7 @@ func (f *ForwardService) DoForward(contact entity.ContactEntity, message *user.M
 }
 
 func (f *ForwardService) buildMsgHead(message *user.Message) string {
-	var msgText string
-	if message.Room() != nil {
-		aliasName, err := message.Room().Alias(message.From())
-		if err != nil || len(aliasName) < 1 {
-			aliasName = message.From().Name()
-		}
-		msgText = "[" + aliasName + "@" + message.Room().Topic()
-	} else {
-		name := message.From().Alias()
-		if len(name) < 1 {
-			name = message.From().Name()
-		}
-		msgText = "[" + name
-	}
-	msgText = msgText + "]: "
-	msgText = msgText + message.Text()
-
-	return msgText
+	return util.BuildMsgFrom(message) + ": " + message.Text()
 }
 
 func (f *ForwardService) forward(contact entity.ContactEntity, message *user.Message, forward entity.SkillForwardEntity) {
@@ -94,8 +78,16 @@ func (f *ForwardService) forward(contact entity.ContactEntity, message *user.Mes
 		if contact.Id == relation.ContactId || message.From().ID() == relation.ContactId {
 			continue
 		}
-		// 通过转发实现
-		//message.Forward(relation.ContactId)
+		// 通过转发实现 (只配置关注人，未配置关键字，且接收方是个人，且消息类型是非文本)
+		if len(forward.Spekers) > 0 && len(forward.Keywords) < 1 && NewContactService().GetById(relation.ContactId).Type == 1 && message.Type() != schemas.MessageTypeText {
+			// 因为直接转发，不知道消息的来源，所以先发一条文本提示
+			NewContactService().SayTextToContact(relation.ContactId, "主人好~\n您订阅的"+util.BuildMsgFrom(message)+"发了一条媒体消息，转发请查收：")
+			message.Forward(relation.ContactId)
+		}
+		// 非文本消息不使用say发送
+		if message.Type() != schemas.MessageTypeText {
+			continue
+		}
 		// 通过say实现
 		NewContactService().SayTextToContact(relation.ContactId, f.buildMsgHead(message))
 	}
