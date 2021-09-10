@@ -53,10 +53,16 @@ func (q *QaService) DoQa(contact entity.ContactEntity, message *user.Message) {
 	for _, qaItem := range q.QaConf[contact.Id] {
 		for _, keyword := range strings.Split(qaItem.QaKey, ",") {
 			if strings.Contains(message.Text(), keyword) {
-				_, err := message.Say(strings.Trim(qaItem.QaValue, "\n"))
-				if err != nil {
-					log.Println(err)
-					return
+				if contact.Type == 2 {
+					// 群里回答并at管理员
+					currRoom := NewGlobleService().GetBot().Room().Load(contact.Id)
+					atContact := message.From()
+					if qaItem.CallOwner == 1 {
+						atContact = currRoom.Owner()
+					}
+					currRoom.Say(strings.Trim(qaItem.QaValue, "\n"), atContact)
+				} else {
+					message.Say(strings.Trim(qaItem.QaValue, "\n"))
 				}
 				log.Printf("Message response is %s", qaItem.QaValue)
 				return
@@ -64,7 +70,6 @@ func (q *QaService) DoQa(contact entity.ContactEntity, message *user.Message) {
 		}
 	}
 
-	// TODO 未命中关键字时，ai聊天
 	log.Println("Message discarded because not match any keyword.")
 	return
 }

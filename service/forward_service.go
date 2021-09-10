@@ -133,6 +133,15 @@ func (f *ForwardService) checkFrom(contact entity.ContactEntity, message *user.M
 		}
 	}
 
+	// 检查是否有屏蔽字，有的话不转发
+	if len(forward.BadKeywords) > 0 {
+		for _, keyword := range strings.Split(forward.BadKeywords, ",") {
+			if strings.Contains(message.Text(), keyword) {
+				return false
+			}
+		}
+	}
+
 	log.Printf("This message match forward. forward info is %#v", forward)
 	return true
 }

@@ -5,4 +5,5 @@ func InitService() {
 	NewContactService().init()
 	NewQaService().init()
 	NewForwardService().init()
+	NewRoomService().init()
 }

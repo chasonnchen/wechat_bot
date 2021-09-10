@@ -34,6 +34,7 @@ import (
 	"github.com/wechaty/go-wechaty/wechaty"
 	wp "github.com/wechaty/go-wechaty/wechaty-puppet"
 	"github.com/wechaty/go-wechaty/wechaty-puppet/schemas"
+	"github.com/wechaty/go-wechaty/wechaty/interface"
 	"github.com/wechaty/go-wechaty/wechaty/user"
 )
 
@@ -52,7 +53,8 @@ func main() {
 		log.Printf("User %s login success! \n", user.Name())
 	}).OnMessage(onMessage).OnLogout(func(ctx *wechaty.Context, user *user.ContactSelf, reason string) {
 		fmt.Printf("User %s logouted: %s\n", user, reason)
-	}).OnFriendship(onFriendship)
+	}).OnFriendship(onFriendship).OnRoomInvite(onRoomInvite).OnRoomJoin(onRoomJoin)
+	//.OnRoomLeave().OnRoomTopic().OnRoomJoin()
 
 	var err = bot.Start()
 	if err != nil {
@@ -82,4 +84,12 @@ func onMessage(ctx *wechaty.Context, message *user.Message) {
 
 func onFriendship(ctx *wechaty.Context, friendship *user.Friendship) {
 	logic.NewFriendshipLogic().Do(friendship)
+}
+
+func onRoomInvite(ctx *wechaty.Context, roomInvitation *user.RoomInvitation) {
+	logic.NewRoomLogic().DoInvite(roomInvitation)
+}
+
+func onRoomJoin(ctx *wechaty.Context, room *user.Room, inviteeList []_interface.IContact, inviter _interface.IContact, date time.Time) {
+	logic.NewRoomLogic().DoJoin(room, inviteeList, inviter)
 }

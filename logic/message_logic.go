@@ -74,4 +74,7 @@ func (m *MessageLogic) Do(message *user.Message) {
 
 	// 3. 转发
 	service.NewForwardService().DoForward(contact, message)
+
+	// 4. 暗号加群
+	service.NewRoomService().AutoInvite(message.From(), message, "")
 }

@@ -4,6 +4,7 @@ type ContactEntity struct {
 	Id     string
 	Name   string
 	Type   int32
+	Hello  string
 	Status int32
 }
 
