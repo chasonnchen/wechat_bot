@@ -5,6 +5,7 @@ type ContactEntity struct {
 	Name   string
 	Type   int32
 	Hello  string
+	OpenAi int32
 	Status int32
 }
 

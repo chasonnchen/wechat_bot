@@ -30,7 +30,7 @@ func (c *ContactService) GetById(contactId string) entity.ContactEntity {
 	return c.ContactList[contactId]
 }
 
-func (c *ContactService) Upsert(contact entity.ContactEntity) {
+func (c *ContactService) Upsert(contact entity.ContactEntity) entity.ContactEntity {
 	//  先检查在不在List里
 	contactOri, ok := c.ContactList[contact.Id]
 	if ok {
@@ -46,7 +46,10 @@ func (c *ContactService) Upsert(contact entity.ContactEntity) {
 		// 插入
 		c.ContactList[contact.Id] = contact
 		dao.Webot().Create(&contact)
+		contactOri = contact
 	}
+
+	return contactOri
 }
 
 func (c *ContactService) init() {

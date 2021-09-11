@@ -65,12 +65,22 @@ func (q *QaService) DoQa(contact entity.ContactEntity, message *user.Message) {
 					message.Say(strings.Trim(qaItem.QaValue, "\n"))
 				}
 				log.Printf("Message response is %s", qaItem.QaValue)
-				return
 			}
 		}
 	}
 
-	log.Println("Message discarded because not match any keyword.")
+	// 3. 单聊，通用问答匹配
+	if contact.Type == 1 {
+		for _, qaItem := range q.QaConf["@"] {
+			for _, keyword := range strings.Split(qaItem.QaKey, ",") {
+				if strings.Contains(message.Text(), keyword) {
+					message.Say(strings.Trim(qaItem.QaValue, "\n"))
+					log.Printf("Message response is %s", qaItem.QaValue)
+				}
+			}
+		}
+	}
+
 	return
 }
 

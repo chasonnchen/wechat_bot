@@ -43,7 +43,7 @@ func (r *RoomService) AutoInvite(contact _interface.IContact, message *user.Mess
 		//if strings.Contains(msgText, invite.Keyword) {
 		if msgText == invite.Keyword {
 			// 命中关键字，先回复一句提示
-			NewGlobleService().GetBot().Contact().Load(contact.ID()).Say("群暗号正确，已发起进群邀请。")
+			NewGlobleService().GetBot().Contact().Load(contact.ID()).Say("群暗号正确，已发起邀请，（可能需要群管理员同意，请您耐心等待~）")
 
 			// 发送邀请, 并打日志
 			NewGlobleService().GetBot().Room().Load(invite.ContactId).Add(contact)

@@ -4,6 +4,7 @@ import (
 	"log"
 
 	"github.com/chasonnchen/wechat_bot/entity"
+	"github.com/chasonnchen/wechat_bot/lib/ownthink"
 	"github.com/chasonnchen/wechat_bot/lib/util"
 	"github.com/chasonnchen/wechat_bot/service"
 
@@ -67,7 +68,7 @@ func (m *MessageLogic) Do(message *user.Message) {
 	contact := m.buildContact(message)
 
 	// 1. 更新联系人
-	service.NewContactService().Upsert(contact)
+	contact = service.NewContactService().Upsert(contact)
 
 	// 2. 问答
 	service.NewQaService().DoQa(contact, message)
@@ -77,4 +78,13 @@ func (m *MessageLogic) Do(message *user.Message) {
 
 	// 4. 暗号加群
 	service.NewRoomService().AutoInvite(message.From(), message, "")
+
+	// 5. 智能聊天
+	if contact.Type == 1 && contact.OpenAi == 1 && message.Type() == schemas.MessageTypeText {
+		log.Print("start ai\n")
+		aiRes := ownthink.NewClient().Ask(contact.Id, message.Text())
+		if len(aiRes) > 1 {
+			message.Say(aiRes)
+		}
+	}
 }

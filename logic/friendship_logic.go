@@ -39,7 +39,9 @@ func (f *FriendshipLogic) Do(friendship *user.Friendship) {
 		})
 
 		// 发送通用欢迎语
-		service.NewContactService().SayTextToContact(contact.ID(), "我们已经是好友了，开始聊天吧~\n（本微信是机器人，功能测试中）")
+		service.NewContactService().SayTextToContact(contact.ID(), "我们已经是好友了，开始聊天吧~\n如果您有群暗号，直接发给我可以在自动邀请您进群哦~\n（本微信是机器人，功能测试中）")
+
+		// 通用QA
 
 		// 如果上面hello命中口令， 发送邀请定制欢迎语，并发送邀请
 		service.NewRoomService().AutoInvite(contact, nil, friendship.Hello())

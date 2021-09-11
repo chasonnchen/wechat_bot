@@ -29,7 +29,7 @@ func (r *RoomLogic) DoInvite(roomInvitation *user.RoomInvitation) {
 	// 直接自动通过
 	// roomInvitation.Accept()
 	// 回复邀请人
-	service.NewContactService().SayTextToContact("fenglinyexing", "主人，我收到一个入群邀请")
+	//service.NewContactService().SayTextToContact("fenglinyexing", "主人，我发起一个入群邀请")
 }
 
 func (r *RoomLogic) buildNameString(inviteeList []_interface.IContact) string {
