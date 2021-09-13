@@ -15,4 +15,4 @@
 # vendor/
 conf/webot.yml
 wechat_bot
-nohup.out
+nohup.out*
