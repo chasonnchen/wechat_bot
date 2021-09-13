@@ -54,7 +54,7 @@ func main() {
 	}).OnMessage(onMessage).OnLogout(func(ctx *wechaty.Context, user *user.ContactSelf, reason string) {
 		fmt.Printf("User %s logouted: %s\n", user, reason)
 	}).OnFriendship(onFriendship).OnRoomInvite(onRoomInvite).OnRoomJoin(onRoomJoin)
-	//.OnRoomLeave().OnRoomTopic().OnRoomJoin()
+	//.OnRoomLeave().OnRoomTopic()
 
 	var err = bot.Start()
 	if err != nil {

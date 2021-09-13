@@ -163,7 +163,7 @@ func (f *ForwardService) load() {
 	groupRelatinMap := make(map[int32][]entity.GroupRelationEntity)
 
 	var forwardList []entity.SkillForwardEntity
-	dao.Webot().Find(&forwardList)
+	dao.Webot().Where("status = ?", "1").Find(&forwardList)
 	var groupRelationList []entity.GroupRelationEntity
 	dao.Webot().Find(&groupRelationList)
 
