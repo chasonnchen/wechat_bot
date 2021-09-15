@@ -2,9 +2,10 @@ package logic
 
 import (
 	"log"
+	"strings"
 
 	"github.com/chasonnchen/wechat_bot/entity"
-	"github.com/chasonnchen/wechat_bot/lib/ownthink"
+	"github.com/chasonnchen/wechat_bot/lib/baidu/unit"
 	"github.com/chasonnchen/wechat_bot/lib/util"
 	"github.com/chasonnchen/wechat_bot/service"
 
@@ -80,11 +81,25 @@ func (m *MessageLogic) Do(message *user.Message) {
 	service.NewRoomService().AutoInvite(message.From(), message, "")
 
 	// 5. 智能聊天
+	// 5.1 好友聊天 && 打开智能聊天配置 && 文本消息
 	if contact.Type == 1 && contact.OpenAi == 1 && message.Type() == schemas.MessageTypeText {
 		log.Print("start ai\n")
-		aiRes := ownthink.NewClient().Ask(contact.Id, message.Text())
+		aiRes, _ := unit.NewClient().Chat(contact.Id, message.Text())
 		if len(aiRes) > 1 {
 			message.Say(aiRes)
+		}
+	}
+	// 5.2 群里聊天 && @机器人 && 文本消息 && 非群公告
+	// @发言人 并回复智能聊天的结果
+	selfAliasName, _ := message.Room().Alias(service.NewGlobleService().GetBot().UserSelf())
+	if len(selfAliasName) < 1 {
+		selfAliasName = service.NewGlobleService().GetBot().UserSelf().Name()
+	}
+	log.Printf("self room alias name is %s", selfAliasName)
+	if contact.Type == 2 && message.MentionSelf() && message.Type() == schemas.MessageTypeText && strings.Contains(message.Text(), selfAliasName) {
+		aiRes, _ := unit.NewClient().Chat(message.From().ID(), message.Text()[strings.Index(message.Text(), string(rune(8197)))+3:])
+		if len(aiRes) > 1 {
+			message.Room().Say(aiRes, message.From())
 		}
 	}
 }
