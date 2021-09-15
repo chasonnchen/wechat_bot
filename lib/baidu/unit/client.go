@@ -8,6 +8,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/chasonnchen/wechat_bot/configs"
 	"github.com/chasonnchen/wechat_bot/lib/baidu"
 	"github.com/chasonnchen/wechat_bot/lib/http"
 )
@@ -88,14 +89,9 @@ func (c *Client) getSession(contactId string) Session {
 }
 
 func (c *Client) setSession(contactId string, session Session) {
-
-	log.Printf("1")
 	newMap := c.Sessions
-	log.Printf("2")
 	newMap[contactId] = session
-	log.Printf("3")
 	c.Sessions = newMap
-
 	log.Printf("set session success")
 	return
 }
@@ -174,6 +170,7 @@ func (c *Client) init() {
 }
 
 func (c *Client) load() {
-	c.AccessToken, _ = baidu.GenAccessToken("i9p5i1bOUDjgyujLhwKm42Sv", "vXIcpB7jX5Gqqs4aMaGvVqHIGiO38Ex6 ")
+	baiduConf := configs.GetConf().Baidu
+	c.AccessToken, _ = baidu.GenAccessToken(baiduConf.Ak, baiduConf.Sk)
 	// TODO 请空超时session
 }

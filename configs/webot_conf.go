@@ -11,6 +11,12 @@ import (
 type WebotConf struct {
 	Name   string             `yaml:"name"`
 	DbList map[string]*DbConf `yaml:"db"`
+	Baidu  Baidu              `yaml:"baidu"`
+}
+
+type Baidu struct {
+	Ak string `yaml:"ak"`
+	Sk string `yaml:"sk"`
 }
 
 type DbConf struct {
