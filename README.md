@@ -1,4 +1,4 @@
-声明：本项目基于[Wechaty@Github](https://github.com/wechaty/wechaty)实现，感谢Wechaty各种前辈们的工作！
+声明：本项目基于[Wechaty@Github](https://github.com/wechaty/wechaty)实现，感谢Wechaty各位前辈们的工作！
 > ## 1. [Webot微信助手官网](http://webot.cc/)  
 
 > ## 2. 功能介绍
@@ -28,7 +28,7 @@
 
 > ## 4. 开发计划
 - [x] 控制脚本编写，支持build,restart
-- [x] 智能对话替换成百度Unit
+- [x] 智能对话替换成百度Unit实现
 - [ ] log
     - [ ] logger封装，支持日志写到文件，支持按天切分
     - [ ] 日志补充
