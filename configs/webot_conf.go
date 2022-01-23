@@ -12,6 +12,11 @@ type WebotConf struct {
 	Name   string             `yaml:"name"`
 	DbList map[string]*DbConf `yaml:"db"`
 	Baidu  Baidu              `yaml:"baidu"`
+	Upload  Upload              `yaml:"upload"`
+}
+
+type Upload struct {
+	Path string `yaml:"path"`
 }
 
 type Baidu struct {

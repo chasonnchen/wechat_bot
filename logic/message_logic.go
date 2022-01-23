@@ -2,7 +2,7 @@ package logic
 
 import (
 	"log"
-	"strings"
+	//"strings"
 
 	"github.com/chasonnchen/wechat_bot/entity"
 	"github.com/chasonnchen/wechat_bot/lib/baidu/unit"
@@ -91,7 +91,7 @@ func (m *MessageLogic) Do(message *user.Message) {
 	}
 	// 5.2 群里聊天 && @机器人 && 文本消息 && 非群公告
 	// @发言人 并回复智能聊天的结果
-	selfAliasName, _ := message.Room().Alias(service.NewGlobleService().GetBot().UserSelf())
+	/*selfAliasName, _ := message.Room().Alias(service.NewGlobleService().GetBot().UserSelf())
 	if len(selfAliasName) < 1 {
 		selfAliasName = service.NewGlobleService().GetBot().UserSelf().Name()
 	}
@@ -101,5 +101,8 @@ func (m *MessageLogic) Do(message *user.Message) {
 		if len(aiRes) > 1 {
 			message.Room().Say(aiRes, message.From())
 		}
-	}
+	}*/
+
+    // 6. 内容上传
+    service.NewUploadService().DoUpload(contact, message)
 }

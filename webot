@@ -13,6 +13,8 @@ fi
 
 if [ "$cmd" == "build" ];then
     go build
+    cp -r conf runtime
+    cp wechat_bot runtime
 fi
 
 if [ "$cmd" == "kill" ];then
@@ -20,7 +22,7 @@ if [ "$cmd" == "kill" ];then
 fi
 
 if [ "$cmd" == "restart" ];then
-    /usr/local/go/bin/go build
     ps -ef | grep wechat_bot | grep -v grep | awk '{print $2}' | xargs kill -9
+    cd runtime
     nohup ./wechat_bot &
 fi

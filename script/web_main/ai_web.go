@@ -34,8 +34,8 @@ import (
 
 func main() {
 	var bot = wechaty.NewWechaty(wechaty.WithPuppetOption(wp.Option{
-		Endpoint: "127.0.0.1:30002",
-		// Token: "3d415ebb-7a6f-4cba-b602-1f4ae400f011",
+		Endpoint: "127.0.0.1:10002",
+		//Token: "3d415ebb-7a6f-4cba-b602-1f4ae400f011",
 		Timeout: time.Duration(2 * time.Minute),
 	}))
 

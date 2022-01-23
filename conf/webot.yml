@@ -1,0 +1,9 @@
+name: webot
+db:
+  webot:
+    dsn: webot:xxxxx@tcp(127.0.0.1:3306)/webot?charset=utf8mb4&parseTime=True&loc=Local
+baidu:
+  ak: xxxxxxxxxxxxx
+  sk: xxxxxxxxx
+upload:
+  path: /home/work/html/static/img/

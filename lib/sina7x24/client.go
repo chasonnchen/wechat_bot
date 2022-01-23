@@ -60,6 +60,7 @@ func (c *Client) GetMsgs(tagId int32, lastMsgId int32) (msgContent string, lastM
 	err = json.Unmarshal(resData, &resObj)
 	if err != nil {
 		log.Printf("json decode err  is %#v", err)
+		return "", 0
 	}
 
 	if len(resObj.Result.Data.Feed.NewsList) > 0 {

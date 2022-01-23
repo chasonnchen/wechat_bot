@@ -6,4 +6,5 @@ func InitService() {
 	NewQaService().init()
 	NewForwardService().init()
 	NewRoomService().init()
+	NewGroupService().init()
 }
