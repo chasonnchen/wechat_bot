@@ -13,8 +13,8 @@ fi
 
 if [ "$cmd" == "build" ];then
     go build
-    cp -r conf runtime
-    cp wechat_bot runtime
+    rm -rf runtime/wechat_bot
+    mv wechat_bot runtime/
 fi
 
 if [ "$cmd" == "kill" ];then

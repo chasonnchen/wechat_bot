@@ -20,11 +20,6 @@ type GroupService struct {
 	GroupRelatinMap map[int32][]entity.GroupRelationEntity
 }
 
-func (g *GroupService) IsInGroup(contactId string, groupId int32) bool {
-	// TODO
-	return false
-}
-
 func (g *GroupService) GetContactIdListByGroupId(groupId int32) []string {
 	contactIdList := make([]string, 0)
 	relationList, ok := g.GroupRelatinMap[groupId]

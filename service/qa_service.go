@@ -99,10 +99,35 @@ func (q *QaService) init() {
 
 func (q *QaService) load() {
 	qaConf := make(map[string][]entity.SkillQaEntity)
-	var qaList []entity.SkillQaEntity
-	dao.Webot().Find(&qaList)
+	var qaListOri []entity.SkillQaEntity
+	dao.Webot().Find(&qaListOri)
+    
+    // 把组级别的配置，扩散成群配置
+    var qaList []entity.SkillQaEntity
+    for _, qaItem := range qaListOri {
+        if len(qaItem.ContactId) > 1 {
+            qaList = append(qaList, qaItem)
+        }
+        if qaItem.GroupId > 0 {
+            contactIdList := NewGroupService().GetContactIdListByGroupId(qaItem.GroupId)
+            for _, cid := range contactIdList {
+                newQaItem := entity.SkillQaEntity{
+                    ContactId: cid,
+                    Name: qaItem.Name,
+                    QaKey: qaItem.QaKey,
+                    QaValue: qaItem.QaValue,
+                    CallOwner: qaItem.CallOwner,
+                    Status: qaItem.Status,
+                }
+                qaList = append(qaList, newQaItem)
+            }
+        }
+    }
 
 	for _, qaItem := range qaList {
+        if len(qaItem.ContactId) < 1 {
+            continue
+        }
 		if len(qaConf[qaItem.ContactId]) < 1 {
 			confItem := make([]entity.SkillQaEntity, 0)
 			qaConf[qaItem.ContactId] = confItem
