@@ -1,5 +1,5 @@
 声明：本项目基于[Wechaty@Github](https://github.com/wechaty/wechaty)实现，感谢Wechaty各位前辈们的工作！
-> ## 1. [Webot微信助手官网](http://webot.cc/)  
+> ## 1. [Webot微信社群助手官网](http://webot.cc/)  
 
 > ## 2. 功能介绍
 - 好友相关：
