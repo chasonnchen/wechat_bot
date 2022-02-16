@@ -1,4 +1,5 @@
 声明：此项目基于[Wechaty@Github](https://github.com/wechaty/wechaty)实现，感谢Wechaty各位前辈们的工作！
+
 声明2：如果使用方业务或者群有涉政涉黄成分，则无法提供服务。
 > ## 1. [Webot微信社群助手官网](http://webot.cc/)  
 
