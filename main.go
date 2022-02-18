@@ -29,6 +29,7 @@ import (
 	"github.com/chasonnchen/wechat_bot/dao"
 	"github.com/chasonnchen/wechat_bot/logic"
 	"github.com/chasonnchen/wechat_bot/service"
+	"github.com/chasonnchen/wechat_bot/service/openapi"
 	"github.com/chasonnchen/wechat_bot/task"
 
 	"github.com/wechaty/go-wechaty/wechaty"
@@ -67,7 +68,11 @@ func main() {
 	configs.InitConfig()
 	dao.InitDao()
 	service.InitService()
+	openapi.InitOpenapi()
 	task.InitTask(bot)
+
+    // 4. 启动一个http服务
+    initServer(":8877")
 
 	var quitSig = make(chan os.Signal)
 	signal.Notify(quitSig, os.Interrupt, os.Kill)

@@ -30,6 +30,12 @@ func (c *ContactService) GetById(contactId string) entity.ContactEntity {
 	return c.ContactList[contactId]
 }
 
+func (c *ContactService) GetByAppId(appId int32) []entity.ContactEntity {
+    var contactList []entity.ContactEntity
+    dao.Webot().Where("app_id = ? AND status = ?", appId, 1).Find(&contactList)
+    return contactList
+}
+
 func (c *ContactService) Upsert(contact entity.ContactEntity) entity.ContactEntity {
 	//  先检查在不在List里
 	contactOri, ok := c.ContactList[contact.Id]
