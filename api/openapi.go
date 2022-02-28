@@ -46,6 +46,8 @@ func GetOriJson(ctx *gin.Context) string {
 }
 
 func CheckSign(ctx *gin.Context, param CommonParams) error {
+    // 判断时间戳是否过期
+
     appKey := openapi.NewUserService().GetAppKeyByAppId(param.AppId)
     strSignInput := appKey + "appid=" + strconv.FormatInt(int64(param.AppId),10) + "&ts=" + strconv.FormatInt(param.Ts, 10) + "&once=" + param.Once + "&data=" + GetOriJson(ctx)
     log.Printf("sign input  is %s\n", strSignInput)

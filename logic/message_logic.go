@@ -67,7 +67,6 @@ func (m *MessageLogic) Do(message *user.Message) {
 	// 0. log
 	log.Printf("MessageLogic recive message: %s", m.buildMsgText(message))
 	contact := m.buildContact(message)
-
 	// 1. 更新联系人
 	contact = service.NewContactService().Upsert(contact)
 

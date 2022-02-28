@@ -46,7 +46,7 @@ func (o *UserService) GetAppKeyByAppId(appId int32) string {
 func (o *UserService) load() {
 	userMap := make(map[int32]entity.OpenapiUserEntity)
 	var userList []entity.OpenapiUserEntity
-	dao.Webot().Find(&userList)
+	dao.Webot().Where("status = ?", "1").Find(&userList)
     
     for _, user := range userList {
         userMap[user.AppId] = user
