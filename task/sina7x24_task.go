@@ -3,6 +3,7 @@ package task
 import (
 	"log"
 	"strconv"
+    "strings"
 	"time"
 
 	"github.com/chasonnchen/wechat_bot/lib/sina7x24"
