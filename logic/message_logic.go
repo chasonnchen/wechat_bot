@@ -102,6 +102,6 @@ func (m *MessageLogic) Do(message *user.Message) {
 		}
 	}*/
 
-    // 6. 内容上传
-    service.NewUploadService().DoUpload(contact, message)
+	// 6. 内容上传
+	service.NewUploadService().DoUpload(contact, message)
 }

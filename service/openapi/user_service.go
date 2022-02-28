@@ -34,23 +34,22 @@ func (o *UserService) init() {
 }
 
 func (o *UserService) GetUserByAppId(appId int32) entity.OpenapiUserEntity {
-    return o.UserMap[appId]
+	return o.UserMap[appId]
 }
 
 func (o *UserService) GetAppKeyByAppId(appId int32) string {
-    user := o.UserMap[appId]
-    return user.AppKey
+	user := o.UserMap[appId]
+	return user.AppKey
 }
-
 
 func (o *UserService) load() {
 	userMap := make(map[int32]entity.OpenapiUserEntity)
 	var userList []entity.OpenapiUserEntity
 	dao.Webot().Where("status = ?", "1").Find(&userList)
-    
-    for _, user := range userList {
-        userMap[user.AppId] = user
-    }
+
+	for _, user := range userList {
+		userMap[user.AppId] = user
+	}
 
 	log.Printf("openapi user conf is %#v", userMap)
 	o.UserMap = userMap

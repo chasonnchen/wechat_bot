@@ -41,7 +41,7 @@ func (f *FriendshipLogic) Do(friendship *user.Friendship) {
 		// 发送通用欢迎语
 		service.NewContactService().SayTextToContact(contact.ID(), "Hi,我是WeBot机器人~\n我们已经是好友啦，可以看看下面我的详细介绍哦~")
 		service.NewContactService().SayTextToContact(contact.ID(), "我的github地址：https://github.com/chasonnchen/wechat_bot")
-        service.NewContactService().SayTextToContact(contact.ID(), "1. 如果您有群暗号，发给我可以自动邀请您进群~\n\n2. 如果您想使用此机器人，请先看下github上4种使用和接入方式哦~\n\n3. 如需咨询其他问题，我主人稍后回复~")
+		service.NewContactService().SayTextToContact(contact.ID(), "1. 如果您有群暗号，发给我可以自动邀请您进群~\n\n2. 如果您想使用此机器人，请先看下github上4种使用和接入方式哦~\n\n3. 如需咨询其他问题，我主人稍后回复~")
 
 		// 通用QA
 

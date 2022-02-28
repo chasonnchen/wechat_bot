@@ -3,7 +3,6 @@ package task
 import (
 	"log"
 	"strconv"
-    "strings"
 	"time"
 
 	"github.com/chasonnchen/wechat_bot/lib/sina7x24"
@@ -48,10 +47,8 @@ func (s *Sina7x24Task) work() {
 	layout := "1504"
 	timeStr, _ := strconv.Atoi(time.Now().Format(layout))
 	if timeStr > 2230 || timeStr < 830 {
-        if !strings.Contains(msg, "俄") && !strings.Contains(msg, "乌"){
-		    log.Println("It is not good time")
-	    	return
-        }
+		log.Println("It is not good time")
+		return
 	}
 
 	if len(msg) > 0 {

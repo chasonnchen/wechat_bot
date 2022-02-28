@@ -4,9 +4,9 @@ type OpenapiUserEntity struct {
 	Id        int32
 	Name      string
 	ContactId string
-	Tel string
-	AppId   int32
-	AppKey string
+	Tel       string
+	AppId     int32
+	AppKey    string
 	Status    int32
 }
 

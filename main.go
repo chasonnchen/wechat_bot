@@ -71,8 +71,8 @@ func main() {
 	openapi.InitOpenapi()
 	task.InitTask(bot)
 
-    // 4. 启动一个http服务
-    initServer(":8877")
+	// 4. 启动一个http服务
+	initServer(":8877")
 
 	var quitSig = make(chan os.Signal)
 	signal.Notify(quitSig, os.Interrupt, os.Kill)
