@@ -1,3 +1,5 @@
+[![Powered by Wechaty](https://img.shields.io/badge/Powered%20By-Wechaty-brightgreen.svg)](https://wechaty.js.org)
+
 声明：此项目基于[Wechaty@Github](https://github.com/wechaty/wechaty)实现，感谢Wechaty各位前辈们的工作！
 
 声明2：只提供给中国境内个人或企业使用，需要满足中国境内审查要求，涉及黄赌毒炒币等违规业务的，可能无法提供微信社群管理服务。
