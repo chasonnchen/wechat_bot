@@ -2,6 +2,7 @@ package service
 
 import (
 	"log"
+	"strconv"
 	"strings"
 	"time"
 
@@ -62,7 +63,7 @@ func (f *ForwardService) DoForward(contact entity.ContactEntity, message *user.M
 }
 
 func (f *ForwardService) buildMsgHead(message *user.Message) string {
-	return util.BuildMsgFrom(message) + ": " + message.Text()
+	return util.BuildMsgFrom(message) + ":\n" + message.Text()
 }
 
 func (f *ForwardService) forward(contact entity.ContactEntity, message *user.Message, forward entity.SkillForwardEntity) {
@@ -72,6 +73,10 @@ func (f *ForwardService) forward(contact entity.ContactEntity, message *user.Mes
 		log.Printf("Forward fial. This group has no relaion. forward info is %#v", forward)
 		return
 	}
+
+	// 这里写一个cache，记录 某个发言人，触发了某条转发规则，记1分钟，用于后面媒体消息的自动识别和转发
+
+	NewCacheService().Set(message.From().ID()+strconv.Itoa(int(forward.Id)), 1, 1*time.Minute)
 
 	for _, relation := range groupRelationList {
 		// 判断下不发给当前消息来源的群，或者个人
@@ -165,7 +170,7 @@ func (f *ForwardService) load() {
 	var forwardList []entity.SkillForwardEntity
 	dao.Webot().Where("status = ?", "1").Find(&forwardList)
 	var groupRelationList []entity.GroupRelationEntity
-	dao.Webot().Find(&groupRelationList)
+	dao.Webot().Where("status = ?", "1").Find(&groupRelationList)
 
 	for _, relation := range groupRelationList {
 		if len(groupRelatinMap[relation.GroupId]) < 1 {

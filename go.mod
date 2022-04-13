@@ -4,6 +4,7 @@ go 1.17
 
 require (
 	github.com/gin-gonic/gin v1.7.7
+	github.com/patrickmn/go-cache v2.1.0+incompatible
 	github.com/wechaty/go-wechaty v0.3.3
 	gopkg.in/yaml.v2 v2.2.8
 	gorm.io/driver/mysql v1.1.2

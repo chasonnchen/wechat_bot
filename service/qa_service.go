@@ -100,7 +100,7 @@ func (q *QaService) init() {
 func (q *QaService) load() {
 	qaConf := make(map[string][]entity.SkillQaEntity)
 	var qaListOri []entity.SkillQaEntity
-	dao.Webot().Find(&qaListOri)
+	dao.Webot().Where("status = ?", "1").Find(&qaListOri)
 
 	// 把组级别的配置，扩散成群配置
 	var qaList []entity.SkillQaEntity

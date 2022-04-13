@@ -49,7 +49,7 @@ func (g *GroupService) load() {
 	groupRelatinMap := make(map[int32][]entity.GroupRelationEntity)
 
 	var groupRelationList []entity.GroupRelationEntity
-	dao.Webot().Find(&groupRelationList)
+	dao.Webot().Where("status = ?", "1").Find(&groupRelationList)
 
 	for _, relation := range groupRelationList {
 		if len(groupRelatinMap[relation.GroupId]) < 1 {

@@ -2,11 +2,13 @@ package logic
 
 import (
 	"log"
+	"time"
 	//"strings"
 
 	"github.com/chasonnchen/wechat_bot/entity"
 	"github.com/chasonnchen/wechat_bot/lib/baidu/unit"
 	"github.com/chasonnchen/wechat_bot/lib/util"
+	"github.com/chasonnchen/wechat_bot/lib/xiaojphone"
 	"github.com/chasonnchen/wechat_bot/service"
 
 	"github.com/wechaty/go-wechaty/wechaty-puppet/schemas"
@@ -75,9 +77,21 @@ func (m *MessageLogic) Do(message *user.Message) {
 
 	// 3. 转发
 	service.NewForwardService().DoForward(contact, message)
+	service.NewForwardMediaService().DoForward(contact, message)
 
 	// 4. 暗号加群
 	service.NewRoomService().AutoInvite(message.From(), message, "")
+
+	// 4.1 查手机号信息
+	if message.Type() == schemas.MessageTypeText && len(message.Text()) == 11 {
+		log.Print("start get phone info\n")
+		phoneInfo := xiaojphone.NewClient().GetInfo(message.Text())
+		if len(phoneInfo) > 1 {
+			message.Say("亲，稍等哦，正在查询~")
+			time.Sleep(2 * time.Second)
+			message.Say(phoneInfo)
+		}
+	}
 
 	// 5. 智能聊天
 	// 5.1 好友聊天 && 打开智能聊天配置 && 文本消息

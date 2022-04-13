@@ -68,8 +68,9 @@ func main() {
 	configs.InitConfig()
 	dao.InitDao()
 	service.InitService()
+
 	openapi.InitOpenapi()
-	task.InitTask(bot)
+	task.InitTask()
 
 	// 4. 启动一个http服务
 	initServer(":8877")

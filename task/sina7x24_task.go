@@ -8,8 +8,6 @@ import (
 
 	"github.com/chasonnchen/wechat_bot/lib/sina7x24"
 	"github.com/chasonnchen/wechat_bot/service"
-
-	"github.com/wechaty/go-wechaty/wechaty"
 )
 
 var (
@@ -18,11 +16,9 @@ var (
 
 type Sina7x24Task struct {
 	LastId int32
-	Bot    *wechaty.Wechaty
 }
 
-func NewSina7x24Task(bot *wechaty.Wechaty) *Sina7x24Task {
-	sina7x24Task.Bot = bot
+func NewSina7x24Task() *Sina7x24Task {
 	return sina7x24Task
 }
 

@@ -138,7 +138,7 @@ func (this *HttpBase) PostJson(uri string, data interface{}, options PostOptions
 
 func (this *HttpBase) PostForm(uri string, data map[string]string, options PostOptions) (body []byte, err error) {
 	url := this.addr + uri
-	if strings.HasPrefix(uri, "http://") {
+	if strings.HasPrefix(uri, "http") {
 		url = uri
 	}
 
@@ -161,6 +161,8 @@ func (this *HttpBase) PostForm(uri string, data map[string]string, options PostO
 			req.Header.Set(field, value)
 		}
 	}
+
+	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 
 	client := &http.Client{
 		Timeout: 10 * time.Second,

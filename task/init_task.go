@@ -1,10 +1,7 @@
 package task
 
-import (
-	"github.com/wechaty/go-wechaty/wechaty"
-)
-
-func InitTask(bot *wechaty.Wechaty) {
+func InitTask() {
 	// 初始化webot基础配置
-	NewSina7x24Task(bot).Start()
+	NewSina7x24Task().Start()
+	NewDezhengTask().Start()
 }
