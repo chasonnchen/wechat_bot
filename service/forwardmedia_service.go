@@ -79,7 +79,7 @@ func (f *ForwardMediaService) forward(contact entity.ContactEntity, message *use
 
 func (f *ForwardMediaService) checkFrom(contact entity.ContactEntity, message *user.Message, forward entity.SkillForwardEntity) bool {
 	time.Sleep(5 * time.Second)
-    _, found := NewCacheService().Get(message.From().ID() + strconv.Itoa(int(forward.Id)))
+	_, found := NewCacheService().Get(message.From().ID() + strconv.Itoa(int(forward.Id)))
 	if found {
 		log.Printf("This message match forward media.")
 		return true

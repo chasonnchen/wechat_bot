@@ -11,6 +11,7 @@ func BuildMsgFrom(message *user.Message) string {
 		if err != nil || len(aliasName) < 1 {
 			aliasName = message.From().Name()
 		}
+		// msgText = "[" + aliasName + "@" + message.Room().Topic() + "[" + message.Room().ID() + "]"
 		msgText = "[" + aliasName + "@" + message.Room().Topic()
 	} else {
 		name := message.From().Alias()

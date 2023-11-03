@@ -156,3 +156,30 @@ func MsgSend(ctx *gin.Context) {
 		Data:   "",
 	})
 }
+
+/*func VipMsgSend(ctx *gin.Context) {
+	// 获取GET参数
+	type MsgSendRequest struct {
+		Id  string `form:"id" binding:"required"`
+		Msg string `form:"msg" binding:"required"`
+	}
+	var msgSendRequest MsgSendRequest
+	if err := ctx.ShouldBindQuery(&msgSendRequest); err != nil {
+		ctx.JSON(http.StatusOK, CommonResponse{
+			Status: 10002,
+			Msg:    "POST JSON参数有误，请查看接口文档",
+			Data:   "",
+		})
+		return
+	}
+
+	// 根据id发送消息
+	service.NewContactService().SayTextToContact(msgSendRequest.Id, msgSendRequest.Msg)
+
+	// 返回结果
+	ctx.JSON(http.StatusOK, CommonResponse{
+		Status: 20000,
+		Msg:    "success",
+		Data:   "",
+	})
+}*/

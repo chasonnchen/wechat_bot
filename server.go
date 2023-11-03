@@ -22,6 +22,7 @@ func initRouter() *gin.Engine {
 	openapiGroup := server.Group("/openapi")
 	openapiGroup.POST("/room/getAll", api.RoomGetAll)
 	openapiGroup.POST("/msg/send", api.MsgSend)
+	//openapiGroup.GET("/vip/msg/send", api.VipMsgSend)
 
 	return server
 }

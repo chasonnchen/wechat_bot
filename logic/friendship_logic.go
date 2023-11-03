@@ -2,6 +2,9 @@ package logic
 
 import (
 	"log"
+	"time"
+    "math/rand"
+    "strconv"
 
 	"github.com/chasonnchen/wechat_bot/entity"
 	"github.com/chasonnchen/wechat_bot/service"
@@ -27,7 +30,7 @@ func (f *FriendshipLogic) Do(friendship *user.Friendship) {
 
 	if friendship.Type().String() == "FriendshipTypeReceive" {
 		// 收到添加好友请求
-
+        return
 		// 直接自动通过
 		friendship.Accept()
 		// 更新到好友列表
@@ -39,9 +42,16 @@ func (f *FriendshipLogic) Do(friendship *user.Friendship) {
 		})
 
 		// 发送通用欢迎语
-		service.NewContactService().SayTextToContact(contact.ID(), "Hi,我是WeBot机器人~\n我们已经是好友啦，可以看看下面我的详细介绍哦~")
-		service.NewContactService().SayTextToContact(contact.ID(), "我的github地址：https://github.com/chasonnchen/wechat_bot")
-		service.NewContactService().SayTextToContact(contact.ID(), "1. 如果您有群暗号，发给我可以自动邀请您进群~\n\n2. 如果您想使用此机器人，请先看下github上4种使用和接入方式哦~\n\n3. 如需咨询其他问题，我主人稍后回复~")
+		service.NewContactService().SayTextToContact(contact.ID(), "Hi,我们是Webot团队~\n咱们已经是好友啦，可以看看下面功能详细介绍哦~")
+		time.Sleep(3 * time.Second)
+        service.NewContactService().SayTextToContact(contact.ID(), "官方网站：https://webot.cc")
+		service.NewContactService().SayTextToContact(contact.ID(), "github地址：https://github.com/chasonnchen/wechat_bot")
+		time.Sleep(5 * time.Second)
+        service.NewContactService().SayTextToContact(contact.ID(), "1. 如果您有群暗号，发给我可以自动邀请您进群~\n\n2. 如果您想使用此机器人，请先看下官网介绍和使用接入方式哦~\n\n3. 如咨询其他问题请留言，正在分配客服~")
+		time.Sleep(10 * time.Second)
+        rand.Seed(time.Now().UnixNano())
+        name := rand.Intn(30) + 10
+		service.NewContactService().SayTextToContact(contact.ID(), "您好~ 我是"+ strconv.Itoa(int(name)) +"号客服，您请说")
 
 		// 通用QA
 
